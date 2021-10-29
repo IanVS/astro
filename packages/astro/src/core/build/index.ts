@@ -134,7 +134,7 @@ class AstroBuilder {
       build: {
         emptyOutDir: true,
         minify: 'esbuild', // significantly faster than "terser" but may produce slightly-bigger bundles
-        outDir: fileURLToPath(this.config.dist),
+        outDir: `${this.config.dist.pathname}`.replace(`${viteConfig.root}`, ''),
         rollupOptions: {
           input: [],
           output: { format: 'esm' },
@@ -142,10 +142,14 @@ class AstroBuilder {
         target: 'es2020', // must match an esbuild target
       },
       plugins: [
-        rollupPluginHTML({ input, extractAssets: false }) as any, // "any" needed for CI; also we don’t need typedefs for this anyway
+        rollupPluginHTML({
+          rootDir: viteConfig.root,
+          input,
+          extractAssets: false,
+        }) as any, // "any" needed for CI; also we don’t need typedefs for this anyway
         ...(viteConfig.plugins || []),
       ],
-      publicDir: viteConfig.publicDir,
+      publicDir: `${viteConfig.publicDir}`.replace(`${viteConfig.root}`, ''),
       root: viteConfig.root,
       server: viteConfig.server,
     });
