@@ -17,6 +17,7 @@ ScopedStyles('Scopes rules correctly', () => {
     '.class *': `.class.${className} .${className}`,
     '.class>*': `.class.${className}>.${className}`,
     '.class button:focus': `.class.${className} button.${className}:focus`,
+    '.class:nth-child(even) .class2': `.class.${className}:nth-child(even) .class2.${className}`,
     '.class h3::before': `.class.${className} h3.${className}::before`,
     'button:focus::before': `button.${className}:focus::before`,
     '.class :global(*)': `.class.${className} *`,
